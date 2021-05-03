@@ -36,9 +36,7 @@ function removeContact (contactId) {
     // Получем текущий массив контактов и удаляем нужный контакт
     const currentContacts = JSON.parse(data).filter(({ id }) => id !== Number(contactId))
 
-    const newContactsToBuffer = new Uint8Array(Buffer.from(JSON.stringify(currentContacts)))
-
-    fs.writeFile(contactsPath, newContactsToBuffer, (err) => {
+    fs.writeFile(contactsPath, JSON.stringify(currentContacts), (err) => {
       if (err) {
         console.error(err.message)
         return
@@ -65,10 +63,8 @@ function addContact (name, email, phone) {
     const currentContacts = JSON.parse(data)
     // Добавляем новый контакт в массив контактов
     const updateContacts = [newConatct, ...currentContacts]
-    // конвектируем массив контактов  в JSON ,а после в Buffer.
-    const newContactsToBuffer = new Uint8Array(Buffer.from(JSON.stringify(updateContacts)))
 
-    fs.writeFile(contactsPath, newContactsToBuffer, (err) => {
+    fs.writeFile(contactsPath, JSON.stringify(updateContacts), (err) => {
       if (err) {
         console.error(err.message)
         return
